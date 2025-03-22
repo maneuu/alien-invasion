@@ -1,0 +1,3 @@
+# Alien Invasion
+
+No jogo **Alien Invasion**, o jogador controla uma nave espacial que aparece no centro da parte inferior da tela. O jogador pode mover a nave para a esquerda e direita usando as setas do teclado e atirar com a barra de espaço. Quando o jogo começa, uma frota de alienígenas preenche o céu e se move para os lados e para baixo na tela. O jogador deve atirar e destruir os alienígenas. Se o jogador destruir todos os alienígenas, uma nova frota aparece, se movendo mais rápido que a anterior. Se algum alienígena atingir a nave do jogador ou alcançar o fundo da tela, o jogador perde uma nave. Quando o jogador perde três naves, o jogo termina.
