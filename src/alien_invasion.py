@@ -15,20 +15,22 @@ class AlienInvasion:
         self.settings = Settings()
 
         # Define o tamanho da tela
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
 
         # Cria uma espaçonave
         self.ship = Ship(self)
 
-        # Define a cor de fundo
-        self.bg_color = (230, 230, 230)
+        
         
     def run_game(self):
         """Inicia o loop principal do jogo."""
         while True:
             # Verifica eventos
             self._check_events()
+            # Atualiza a tela
+            self._update_screen()
             # Controla a taxa de quadros do jogo, limitando a 60 FPS
             self.clock.tick(60)
 

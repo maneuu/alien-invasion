@@ -6,4 +6,8 @@ class Settings:
         # Configurações da tela
         self.screen_width = 1000
         self.screen_height = 600
-        self.bg_color = (230, 230, 230)
+        self.bg_color = (20 ,0 ,40) 
+
+        #  Blue Sky 135 206 235
+        # Azul escuro 10 10 40
+        # Roxo escuro 20 0 40
