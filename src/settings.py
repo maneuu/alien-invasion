@@ -11,3 +11,6 @@ class Settings:
         #  Blue Sky 135 206 235
         # Azul escuro 10 10 40
         # Roxo escuro 20 0 40
+
+        # Configurações da espaçonave
+        self.ship_speed = 1.5

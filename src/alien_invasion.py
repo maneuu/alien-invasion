@@ -29,6 +29,8 @@ class AlienInvasion:
         while True:
             # Verifica eventos
             self._check_events()
+            # Atualiza a posição da espaçonave
+            self.ship.update()
             # Atualiza a tela
             self._update_screen()
             # Controla a taxa de quadros do jogo, limitando a 60 FPS
@@ -40,6 +42,21 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()  # Sai do jogo quando a janela é fechada
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    # Move a espaçonave para a direita
+                    self.ship.moving_right = True
+                elif event.key == pygame.K_LEFT:
+                    # Move a espaçonave para a esquerda
+                    self.ship.moving_left = True
+
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    # Para o movimento da espaçonave
+                    self.ship.moving_right = False
+                elif event.key == pygame.K_LEFT:
+                    # Para o movimento da espaçonave
+                    self.ship.moving_left = False
 
     def _update_screen(self):
         """Atualiza as imagens na tela e alterna para a nova tela."""
