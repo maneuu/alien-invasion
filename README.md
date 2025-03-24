@@ -1,3 +1,37 @@
-# Alien Invasion
+# 🚀 Alien Invasion - Defenda a Terra! 🌌
 
-No jogo **Alien Invasion**, o jogador controla uma nave espacial que aparece no centro da parte inferior da tela. O jogador pode mover a nave para a esquerda e direita usando as setas do teclado e atirar com a barra de espaço. Quando o jogo começa, uma frota de alienígenas preenche o céu e se move para os lados e para baixo na tela. O jogador deve atirar e destruir os alienígenas. Se o jogador destruir todos os alienígenas, uma nova frota aparece, se movendo mais rápido que a anterior. Se algum alienígena atingir a nave do jogador ou alcançar o fundo da tela, o jogador perde uma nave. Quando o jogador perde três naves, o jogo termina.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)
+![Pygame](https://img.shields.io/badge/Pygame-2.1.3-ff69b4?logo=game)
+![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
+
+**Um jogo clássico de arcade com uma reviravolta espacial!**  
+Ajude nossa nave heróica a deter a invasão alienígena neste jogo emocionante desenvolvido em Python com Pygame.
+
+<div align="center">
+  <img src="https://via.placeholder.com/400x250.png?text=Captura+de+Tela+do+Jogo" alt="Game Preview" width="400">
+</div>
+
+## ✨ Funcionalidades Atuais
+
+- 🕹️ Controles simples (setas e espaço)
+- 👾 Ondas de alienígenas com movimento dinâmico
+- 🚀 Sistema de disparo de lasers
+- 💥 Colisões e sistema de vidas
+- 🚨 Dificuldade progressiva por fase
+- 🎮 Game over com reinício automático
+
+## 🎮 Como Jogar
+
+### 📋 Regras Básicas
+
+- **3 vidas** para salvar a Terra!
+- Destrua **todos os aliens** para avançar de fase!
+- Cuidado: aliens aceleram a cada fase!
+
+### 🕹️ Controles
+
+| Tecla  | Ação              |
+| ------ | ----------------- |
+| ← →    | Movimento lateral |
+| Espaço | Disparar laser    |
+| ESC    | Sair do jogo      |
