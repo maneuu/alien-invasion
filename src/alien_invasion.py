@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
     """Classe geral para gerenciar os recursos e o comportamento do jogo."""
@@ -25,11 +26,10 @@ class AlienInvasion:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")"""
         pygame.display.set_caption("Alien Invasion")
-
-
         # Cria uma espaçonave
         self.ship = Ship(self)
-
+        # Cria um grupo no qual serão armazenados os projéteis
+        self.bullets = pygame.sprite.Group()
         
         
     def run_game(self):
@@ -39,10 +39,13 @@ class AlienInvasion:
             self._check_events()
             # Atualiza a posição da espaçonave
             self.ship.update()
+            # Atualiza a posição dos projéteis e se livra dos projéteis antigos
+            self._update_bullets()
             # Atualiza a tela
             self._update_screen()
             # Controla a taxa de quadros do jogo, limitando a 60 FPS
             self.clock.tick(60)
+
 
     def _check_events(self):
         """Responde a eventos de pressionamento de teclas e de mouse."""
@@ -65,6 +68,9 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
                 sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
+
     def _check_keyup_events(self, event):
         """Responde a solturas de tecla."""
         if event.key == pygame.K_RIGHT:
@@ -72,13 +78,32 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
           self.ship.moving_left = False
 
+    def _fire_bullet(self):
+        """Cria um novo projétil e o adiciona ao grupo de projéteis."""
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
+    def _update_bullets(self):
+        """Atualiza a posição dos projéteis e se livra dos projéteis antigos."""
+        # Atualiza a posição dos projéteis
+        self.bullets.update()
+        # Livra-se dos projéteis que desapareceram
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+
     def _update_screen(self):
         """Atualiza as imagens na tela e alterna para a nova tela."""
         # Redesenha a tela a cada passagem pelo loop
-        self.screen.fill(self.settings.bg_color)
+        self.screen.fill(self.settings.bg_color) 
+        # Desenha todos os projéteis atrás da espaçonave e dos alienígenas
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
         self.ship.blitme() # Desenha a espaçonave na tela
         # Atualiza a tela para mostrar o que foi desenhado
         pygame.display.flip()
+
 
 if __name__ == '__main__':
     # Cria uma instância do jogo e executa
