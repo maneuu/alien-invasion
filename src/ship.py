@@ -10,8 +10,12 @@ class Ship:
         self.screen_rect = ai_game.screen.get_rect()
 
         # Carrega a imagem da espaçonave e obtém seu rect
-        self.image = pygame.image.load('./assets/images/ship.bmp')
+        # self.image = pygame.image.load('./assets/images/ship.bmp')
+        # self.rect = self.image.get_rect()
+        self.image = pygame.image.load('./assets/images/spaceship.bmp')
+        self.image = pygame.transform.scale(self.image, (100, 100))  # Redimensiona para 60x60 pixels
         self.rect = self.image.get_rect()
+
 
         # Inicia cada nova espaçonave na parte inferior central da tela
         self.rect.midbottom = self.screen_rect.midbottom

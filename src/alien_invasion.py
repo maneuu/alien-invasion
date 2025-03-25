@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     """Classe geral para gerenciar os recursos e o comportamento do jogo."""
@@ -19,32 +20,36 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
         
-        """ Para rodar em tela cheia
+        """ 
+        //=================== Para rodar em tela cheia ===================\\
         
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
-        pygame.display.set_caption("Alien Invasion")"""
+        pygame.display.set_caption("Alien Invasion")
+        
+        """
+
         pygame.display.set_caption("Alien Invasion")
         # Cria uma espaçonave
         self.ship = Ship(self)
         # Cria um grupo no qual serão armazenados os projéteis
         self.bullets = pygame.sprite.Group()
+        # Cria um grupo de alienígenas
+        self.alien = pygame.sprite.Group()
+
+        self._create_fleet()
         
         
     def run_game(self):
         """Inicia o loop principal do jogo."""
         while True:
-            # Verifica eventos
-            self._check_events()
-            # Atualiza a posição da espaçonave
-            self.ship.update()
+            self._check_events() # Verifica eventos
+            self.ship.update() # Atualiza a posição da espaçonave
             # Atualiza a posição dos projéteis e se livra dos projéteis antigos
             self._update_bullets()
-            # Atualiza a tela
-            self._update_screen()
-            # Controla a taxa de quadros do jogo, limitando a 60 FPS
-            self.clock.tick(60)
+            self._update_screen() # Atualiza a tela
+            self.clock.tick(60)  # Controla a taxa de quadros do jogo, limitando a 60 FPS
 
 
     def _check_events(self):
@@ -93,6 +98,12 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _create_fleet(self):
+        """Cria a frota de alienígenas."""
+        # Cria um alienígena
+        alien = Alien(self)
+        self.alien.add(alien)   
+
     def _update_screen(self):
         """Atualiza as imagens na tela e alterna para a nova tela."""
         # Redesenha a tela a cada passagem pelo loop
@@ -100,9 +111,10 @@ class AlienInvasion:
         # Desenha todos os projéteis atrás da espaçonave e dos alienígenas
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+            
         self.ship.blitme() # Desenha a espaçonave na tela
-        # Atualiza a tela para mostrar o que foi desenhado
-        pygame.display.flip()
+        self.alien.draw(self.screen) # Desenha o alienígena
+        pygame.display.flip() # Atualiza a tela para mostrar o que foi desenhado
 
 
 if __name__ == '__main__':
