@@ -22,3 +22,9 @@ class Settings:
         self.bullet_height = 9
         self.bullet_color = (0, 0, 0)
         self.bullets_allowed = 3
+
+        # Configurações dos alienígenas
+        self.alien_speed = 1.0
+        self.fleet_drop_speed = 10
+        # fleet_direction igual a 1 representa a direita; -1 representa a esquerda
+        self.fleet_direction = 1

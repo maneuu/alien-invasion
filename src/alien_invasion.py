@@ -48,6 +48,8 @@ class AlienInvasion:
             self.ship.update() # Atualiza a posição da espaçonave
             # Atualiza a posição dos projéteis e se livra dos projéteis antigos
             self._update_bullets()
+            # Atualiza a posição dos alienígenas
+            self._update_aliens()
             self._update_screen() # Atualiza a tela
             self.clock.tick(60)  # Controla a taxa de quadros do jogo, limitando a 60 FPS
 
@@ -98,6 +100,11 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _update_aliens(self):
+        """Verifica se a frota está em uma borda e então atualiza as posições de todos os alienígenas na frota."""
+        self._check_fleet_edges()
+        self.alien.update()
+
     def _create_fleet(self):
         """Cria a frota de alienígenas."""
         # Cria um alienígena e continua adicionando alienígenas até que a frota alcance o limite
@@ -123,6 +130,18 @@ class AlienInvasion:
         new_alien.rect.x = x_position
         new_alien.rect.y = y_position
         self.alien.add(new_alien)
+    
+    def _check_fleet_edges(self):
+        """Responde apropriadamente se algum alienígena alcançou uma borda."""
+        for alien in self.alien.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+    def _change_fleet_direction(self):
+        """Faz toda a frota descer e muda a direção da frota."""
+        for alien in self.alien.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
 
     def _update_screen(self):
         """Atualiza as imagens na tela e alterna para a nova tela."""
