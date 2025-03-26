@@ -100,9 +100,29 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """Cria a frota de alienígenas."""
-        # Cria um alienígena
+        # Cria um alienígena e continua adicionando alienígenas até que a frota alcance o limite
+        # Espaço entre cada alienígena é igual à largura de um alienígena
         alien = Alien(self)
-        self.alien.add(alien)   
+        alien_width, alien_height = alien.rect.size
+
+        current_x, current_y = alien_width, alien_height
+
+        while current_y < (self.settings.screen_height - 3 * alien_height):    
+            while current_x < (self.settings.screen_width - 2 * alien_width):
+                self._create_alien(current_x, current_y)
+                current_x += 2 * alien_width
+            
+            # Termina a linha; reseta a posição x e incrementa a posição y
+            current_x = alien_width
+            current_y += 2 * alien_height
+    
+    def _create_alien(self, x_position, y_position):
+        """Cria um alienígena e o posiciona na frota."""
+        new_alien = Alien(self)
+        new_alien.x = x_position
+        new_alien.rect.x = x_position
+        new_alien.rect.y = y_position
+        self.alien.add(new_alien)
 
     def _update_screen(self):
         """Atualiza as imagens na tela e alterna para a nova tela."""
