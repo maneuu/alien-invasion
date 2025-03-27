@@ -17,7 +17,7 @@ class Ship:
         self.rect = self.image.get_rect()
         # 75 100
         #  37,50
-        
+
 
 
         # Inicia cada nova espaçonave na parte inferior central da tela
@@ -40,6 +40,11 @@ class Ship:
 
         # Atualiza o objeto rect a partir de self.x
         self.rect.x = self.x
+
+    def center_ship(self):
+        """Centraliza a espaçonave na tela."""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
 
     def blitme(self):
         """Desenha a espaçonave em sua posição atual."""

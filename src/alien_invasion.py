@@ -1,6 +1,8 @@
 import sys
+from time import sleep
 import pygame
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -31,6 +33,8 @@ class AlienInvasion:
         """
 
         pygame.display.set_caption("Alien Invasion")
+        # Cria uma instância para armazenar estatísticas do jogo
+        self.stats = GameStats(self)
         # Cria uma espaçonave
         self.ship = Ship(self)
         # Cria um grupo no qual serão armazenados os projéteis
@@ -121,8 +125,22 @@ class AlienInvasion:
         # Verifica colisões entre alienígenas e a espaçonave
         if pygame.sprite.spritecollideany(self.ship, self.alien):
             # print("A espaçonave foi atingida!")
-            pass
+            self._ship_hit()
 
+    def _ship_hit(self):
+        """Responde ao fato de a espaçonave ter sido atingida por um alienígena."""
+        # Decrementa ships_left
+        self.stats.ships_left -= 1
+        # Esvazia a lista de alienígenas e de projéteis
+        self.alien.empty()
+        self.bullets.empty()
+        # Cria uma nova frota e centraliza a espaçonave
+        self._create_fleet()
+        self.ship.center_ship()
+        # Faz uma pausa
+        sleep(1.5)
+    
+            
     def _create_fleet(self):
         """Cria a frota de alienígenas."""
         # Cria um alienígena e continua adicionando alienígenas até que a frota alcance o limite
