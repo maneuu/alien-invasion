@@ -43,17 +43,20 @@ class AlienInvasion:
         self.alien = pygame.sprite.Group()
 
         self._create_fleet()
+        # Começa o jogo no estado ativo.
+        self.game_active = True
         
         
     def run_game(self):
         """Inicia o loop principal do jogo."""
         while True:
             self._check_events() # Verifica eventos
-            self.ship.update() # Atualiza a posição da espaçonave
-            # Atualiza a posição dos projéteis e se livra dos projéteis antigos
-            self._update_bullets()
-            # Atualiza a posição dos alienígenas
-            self._update_aliens()
+            if self.game_active:
+                self.ship.update() # Atualiza a posição da espaçonave
+                # Atualiza a posição dos projéteis e se livra dos projéteis antigos
+                self._update_bullets()
+                # Atualiza a posição dos alienígenas
+                self._update_aliens()
             self._update_screen() # Atualiza a tela
             self.clock.tick(60)  # Controla a taxa de quadros do jogo, limitando a 60 FPS
 
@@ -141,15 +144,18 @@ class AlienInvasion:
     def _ship_hit(self):
         """Responde ao fato de a espaçonave ter sido atingida por um alienígena."""
         # Decrementa ships_left
-        self.stats.ships_left -= 1
-        # Esvazia a lista de alienígenas e de projéteis
-        self.alien.empty()
-        self.bullets.empty()
-        # Cria uma nova frota e centraliza a espaçonave
-        self._create_fleet()
-        self.ship.center_ship()
-        # Faz uma pausa
-        sleep(1.5)
+        if self.stats.ships_left > 0:
+            self.stats.ships_left -= 1
+            # Esvazia a lista de alienígenas e de projéteis
+            self.alien.empty()
+            self.bullets.empty()
+            # Cria uma nova frota e centraliza a espaçonave
+            self._create_fleet()
+            self.ship.center_ship()
+            # Faz uma pausa
+            sleep(1.5)
+        else:
+            self.game_active = False
     
             
     def _create_fleet(self):
