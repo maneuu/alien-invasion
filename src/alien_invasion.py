@@ -117,6 +117,14 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
 
+    def _check_aliens_bottom(self):
+        """Verifica se algum alienígena alcançou a parte inferior da tela."""
+        for alien in self.alien.sprites():
+            if alien.rect.bottom >= self.settings.screen_height:
+                # Trata esse caso da mesma forma que é feita quando a espaçonave é atingida
+                self._ship_hit()  
+                break  
+
     def _update_aliens(self):
         """Verifica se a frota está em uma borda e então atualiza as posições de todos os alienígenas na frota."""
         self._check_fleet_edges()
@@ -126,6 +134,9 @@ class AlienInvasion:
         if pygame.sprite.spritecollideany(self.ship, self.alien):
             # print("A espaçonave foi atingida!")
             self._ship_hit()
+        
+        # Verifica se algum alienígena atingiu a parte inferior da tela
+        self._check_aliens_bottom()
 
     def _ship_hit(self):
         """Responde ao fato de a espaçonave ter sido atingida por um alienígena."""
