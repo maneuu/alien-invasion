@@ -99,11 +99,28 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+        
+        # Verifica colisões entre projéteis e alienígenas
+        self._check_bullet_alien_collisions()
+        
+    
+    def _check_bullet_alien_collisions(self):
+        """Responde a colisões entre projéteis e alienígenas."""
+        # Remove qualquer projétil e alienígena que tenham colidido
+        collisions = pygame.sprite.groupcollide(self.bullets, self.alien, True, True)
+        if not self.alien:
+            # Destroi os projéteis existentes e cria uma nova frota
+            self.bullets.empty()
+            self._create_fleet()
 
     def _update_aliens(self):
         """Verifica se a frota está em uma borda e então atualiza as posições de todos os alienígenas na frota."""
         self._check_fleet_edges()
         self.alien.update()
+
+        # Verifica colisões entre alienígenas e a espaçonave
+        if pygame.sprite.spritecollideany(self.ship, self.alien):
+            print("A espaçonave foi atingida!")
 
     def _create_fleet(self):
         """Cria a frota de alienígenas."""

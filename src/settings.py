@@ -17,8 +17,8 @@ class Settings:
         self.ship_speed = 3.5
 
         # Configuções dos projéteis
-        self.bullet_speed = 4.0
-        self.bullet_width = 6
+        self.bullet_speed = 5.0
+        self.bullet_width = 200
         self.bullet_height = 9
         self.bullet_color = (0, 0, 0)
         self.bullets_allowed = 3
