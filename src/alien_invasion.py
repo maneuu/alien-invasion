@@ -120,7 +120,8 @@ class AlienInvasion:
 
         # Verifica colisões entre alienígenas e a espaçonave
         if pygame.sprite.spritecollideany(self.ship, self.alien):
-            print("A espaçonave foi atingida!")
+            # print("A espaçonave foi atingida!")
+            pass
 
     def _create_fleet(self):
         """Cria a frota de alienígenas."""
