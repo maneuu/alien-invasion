@@ -8,11 +8,6 @@ class Settings:
         self.screen_height = 600
         self.bg_color = (255,255,255)
 
-
-        #  Blue Sky 135 206 235
-        # Azul escuro 10 10 40
-        # Roxo escuro 20 0 40
-
         # Configurações da espaçonave
         self.ship_speed = 3.5
         self.ship_limit = 3

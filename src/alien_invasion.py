@@ -6,6 +6,7 @@ from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from button import Button
 
 class AlienInvasion:
     """Classe geral para gerenciar os recursos e o comportamento do jogo."""
@@ -44,9 +45,11 @@ class AlienInvasion:
 
         self._create_fleet()
         # Começa o jogo no estado ativo.
-        self.game_active = True
+        self.game_active = False
         
-        
+        # Cria o botão Play
+        self.play_button = Button(self, "Play")
+
     def run_game(self):
         """Inicia o loop principal do jogo."""
         while True:
@@ -67,12 +70,37 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()  # Sai do jogo quando a janela é fechada
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
 
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
             
+    def _check_play_button(self, mouse_pos):
+        """Verifica se o botão Play foi clicado."""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
+            self._start_game()  # Inicia um novo jogo
+        
+    def _start_game(self):
+        """Inicia um novo jogo."""
+        # Reinicia as estatísticas do jogo
+        self.stats.reset_stats()
+        self.game_active = True
+
+        # Esvazia a lista de alienígenas e de projéteis
+        self.alien.empty()
+        self.bullets.empty()
+
+        # Cria uma nova frota e centraliza a espaçonave
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Oculta o cursor do mouse
+        pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
         """Responde a pressionamentos de tecla."""
@@ -84,6 +112,9 @@ class AlienInvasion:
                 sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_p: # Inicia o jogo quando a tecla P é pressionada
+            if not self.game_active:
+                self._start_game()
 
     def _check_keyup_events(self, event):
         """Responde a solturas de tecla."""
@@ -156,6 +187,7 @@ class AlienInvasion:
             sleep(1.5)
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)  # Mostra o cursor do mouse
     
             
     def _create_fleet(self):
@@ -206,6 +238,11 @@ class AlienInvasion:
             
         self.ship.blitme() # Desenha a espaçonave na tela
         self.alien.draw(self.screen) # Desenha o alienígena
+
+        # Desenha o botão Play se o jogo não estiver ativo
+        if not self.game_active:
+            self.play_button.draw_button()
+
         pygame.display.flip() # Atualiza a tela para mostrar o que foi desenhado
 
 
