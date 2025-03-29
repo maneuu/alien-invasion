@@ -2,25 +2,36 @@ class Settings:
     """Uma classe para armazenar todas as configurações do Alien Invasion."""
     
     def __init__(self):
-        """Inicializa as configurações do jogo."""
+        """ Inicializa as configurações do jogo."""
         # Configurações da tela
-        self.screen_width = 1000
+        self.screen_width = 800
         self.screen_height = 600
-        self.bg_color = (255,255,255)
-
+        self.bg_color = (255, 255, 255)
         # Configurações da espaçonave
-        self.ship_speed = 3.5
         self.ship_limit = 3
-
-        # Configuções dos projéteis
-        self.bullet_speed = 5.0
-        self.bullet_width = 200
-        self.bullet_height = 9
-        self.bullet_color = (0, 0, 0)
+        # Configurações do projétil
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_color = 60, 60, 60
         self.bullets_allowed = 3
-
         # Configurações dos alienígenas
-        self.alien_speed = 1.0
         self.fleet_drop_speed = 10
-        # fleet_direction igual a 1 representa a direita; -1 representa a esquerda
+        # o quão rápido o jogo aumenta a dificuldade
+        self.speedup_scale = 1.3
+        self.initialize_dynamic_settings()
+    
+    def initialize_dynamic_settings(self):
+        """Inicializa as configurações que mudam durante o jogo."""
+        self.ship_speed = 1.5
+        self.bullet_speed = 2.5
+        self.alien_speed = 1.0
+        
+        # fleet_direction = 1 representa direita; -1 representa esquerda
         self.fleet_direction = 1
+
+    def increase_speed(self):
+        """Aumenta a velocidade das configurações."""
+        self.ship_speed *= self.speedup_scale
+        self.bullet_speed *= self.speedup_scale
+        self.alien_speed *= self.speedup_scale
+        

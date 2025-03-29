@@ -150,6 +150,8 @@ class AlienInvasion:
             # Destroi os projéteis existentes e cria uma nova frota
             self.bullets.empty()
             self._create_fleet()
+            # Aumenta a velocidade do jogo
+            self.settings.increase_speed()
 
     def _check_aliens_bottom(self):
         """Verifica se algum alienígena alcançou a parte inferior da tela."""
