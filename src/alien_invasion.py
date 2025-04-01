@@ -3,6 +3,7 @@ from time import sleep
 import pygame
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -34,8 +35,13 @@ class AlienInvasion:
         """
 
         pygame.display.set_caption("Alien Invasion")
+        
         # Cria uma instância para armazenar estatísticas do jogo
         self.stats = GameStats(self)
+        # Cria uma instância para armazenar as estatísticas do jogo
+
+        self.sb = Scoreboard(self)
+     
         # Cria uma espaçonave
         self.ship = Ship(self)
         # Cria um grupo no qual serão armazenados os projéteis
@@ -84,6 +90,8 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
             self._start_game()  # Inicia um novo jogo
+            self.stats.reset_stats()  # Reinicia as estatísticas do jogo
+            self.sb.prep_score()  # Prepara a pontuação para ser exibida
         
     def _start_game(self):
         """Inicia um novo jogo."""
@@ -146,6 +154,12 @@ class AlienInvasion:
         """Responde a colisões entre projéteis e alienígenas."""
         # Remove qualquer projétil e alienígena que tenham colidido
         collisions = pygame.sprite.groupcollide(self.bullets, self.alien, True, True)
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+                self.sb.prep_score()
+                self.sb.check_high_score()
+                
         if not self.alien:
             # Destroi os projéteis existentes e cria uma nova frota
             self.bullets.empty()
@@ -240,6 +254,8 @@ class AlienInvasion:
             
         self.ship.blitme() # Desenha a espaçonave na tela
         self.alien.draw(self.screen) # Desenha o alienígena
+        # Desenha a pontuação na tela
+        self.sb.show_score()
 
         # Desenha o botão Play se o jogo não estiver ativo
         if not self.game_active:
