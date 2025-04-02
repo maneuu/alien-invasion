@@ -92,6 +92,9 @@ class AlienInvasion:
             self._start_game()  # Inicia um novo jogo
             self.stats.reset_stats()  # Reinicia as estatísticas do jogo
             self.sb.prep_score()  # Prepara a pontuação para ser exibida
+
+            self.sb.prep_level()  # Prepara o nível para ser exibido
+            self.sb.prep_ships()  # Prepara as naves restantes para serem exibidas
         
     def _start_game(self):
         """Inicia um novo jogo."""
@@ -167,6 +170,10 @@ class AlienInvasion:
             # Aumenta a velocidade do jogo
             self.settings.increase_speed()
 
+            # Aumenta o nível
+            self.stats.level += 1
+            self.sb.prep_level()  # Prepara o nível para ser exibido
+
     def _check_aliens_bottom(self):
         """Verifica se algum alienígena alcançou a parte inferior da tela."""
         for alien in self.alien.sprites():
@@ -192,7 +199,9 @@ class AlienInvasion:
         """Responde ao fato de a espaçonave ter sido atingida por um alienígena."""
         # Decrementa ships_left
         if self.stats.ships_left > 0:
+            # Decrementa ships_left
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
             # Esvazia a lista de alienígenas e de projéteis
             self.alien.empty()
             self.bullets.empty()

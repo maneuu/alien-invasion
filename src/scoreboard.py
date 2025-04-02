@@ -1,10 +1,13 @@
 import pygame.font 
+from pygame.sprite import Group
+from ship import Ship
 
 class Scoreboard:
     """Uma classe para mostrar informações sobre o jogo."""
 
     def __init__(self, ai_game):
         """Inicializa os atributos de pontuação."""
+        self.ai_game = ai_game
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         self.settings = ai_game.settings
@@ -12,12 +15,14 @@ class Scoreboard:
 
         # Configura a fonte para mostrar a pontuação.
         self.text_color = (0, 0, 0)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont(None, 38)
 
         # Prepara a imagem da pontuação inicial.
         self.prep_score()
         # Prepara a imagem da pontuação mais alta.
         self.prep_high_score()
+        self.prep_level()
+        self.prep_ships()
 
     def prep_score(self):
         """Transforma a pontuação em uma imagem renderizada."""
@@ -39,6 +44,10 @@ class Scoreboard:
         self.screen.blit(self.score_image, self.score_rect)
         # Desenha a pontuação mais alta na tela.
         self.screen.blit(self.high_score_image, self.high_score_rect)
+        # Desenha o nível na tela.
+        self.screen.blit(self.level_image, self.level_rect)
+        # Desenha as naves restantes na tela.
+        self.ships.draw(self.screen)
     
     def prep_high_score(self):
         """Transforma a pontuação mais alta em uma imagem renderizada."""
@@ -56,3 +65,22 @@ class Scoreboard:
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
+    
+    def prep_ships(self):
+        """Mostra quantas naves restam."""
+        self.ships = Group()
+        for ship_number in range(self.stats.ships_left):
+            ship = Ship(self.ai_game)
+            ship.rect.x = 10 + ship_number * (ship.rect.width + 10)
+            ship.rect.y = 10
+            self.ships.add(ship)
+
+    def prep_level(self):
+        """Transforma o nível atual em uma imagem renderizada."""
+        level_str = f"Level: {self.stats.level}"
+        self.level_image = self.font.render(level_str, True, self.text_color, self.settings.bg_color)
+
+        # Coloca o nível abaixo da pontuação.
+        self.level_rect = self.level_image.get_rect()
+        self.level_rect.right = self.score_rect.right
+        self.level_rect.top = self.score_rect.bottom + 10
